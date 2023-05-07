@@ -1,6 +1,5 @@
 package ru.netology.jdbc_homework.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,18 +15,19 @@ import java.util.stream.Collectors;
 
 @Repository
 public class JdbcRepository {
-    @Autowired
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final String sql;
 
+    public JdbcRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        sql = read("request.sql");
+    }
 
-    String sql;
-    Map<String, String> param = new HashMap<>();
+    private Map<String, String> param = new HashMap<>();
 
     public List<String> getProductName(String name) {
         param.put("name", name);
-        sql = read("request.sql");
-        var products = namedParameterJdbcTemplate.query(sql,
-                param, (rs, rowNum) -> rs.getString("product_name"));
+        var products = namedParameterJdbcTemplate.queryForList(sql, param, String.class);
         return products;
     }
 
