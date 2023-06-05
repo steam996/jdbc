@@ -3,15 +3,15 @@ package ru.netology.jdbc_homework.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.netology.jdbc_homework.repository.JdbcRepository;
+import ru.netology.jdbc_homework.repository.CustomerRepository;
 
 import java.util.List;
 
 @RestController
 public class DBController {
-    private final JdbcRepository repository;
+    private final CustomerRepository repository;
 
-    public DBController(JdbcRepository repository) {
+    public DBController(CustomerRepository repository) {
         this.repository = repository;
     }
 
